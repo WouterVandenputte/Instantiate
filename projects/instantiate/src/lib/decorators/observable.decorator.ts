@@ -33,18 +33,20 @@ function decorate<T extends Object>(
 
   descriptor.value = function () {
     return originalMethod.apply(this).pipe(
-      map((object) => {
-        if (object != null) {
+      map((partial) => {
+        if (partial != null && typeof partial === 'object') {
           if (mapperConstructor != null) {
-            constructor = new mapperConstructor().getConstructor(object);
+            constructor = factory(mapperConstructor).getConstructor(
+              partial as Partial<T>
+            );
           }
           console.assert(
             constructor != null,
             'Constructor should not be null. This is an internal function and is a software error.'
           );
-          return parsePartialToRealObject(constructor!, object);
+          return parsePartialToRealObject(constructor!, partial as Partial<T>);
         }
-        return object;
+        return partial;
       })
     );
   };
