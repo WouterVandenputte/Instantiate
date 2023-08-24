@@ -3,23 +3,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "instantiate": {
+    "instantiate-typescript": {
       "projectType": "library",
-      "root": "projects/instantiate",
-      "sourceRoot": "projects/instantiate/src",
+      "root": "projects/instantiate-typescript",
+      "sourceRoot": "projects/instantiate-typescript/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/instantiate/ng-package.json"
+            "project": "projects/instantiate-typescript/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/instantiate/tsconfig.lib.prod.json"
+              "tsConfig": "projects/instantiate-typescript/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/instantiate/tsconfig.lib.json"
+              "tsConfig": "projects/instantiate-typescript/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -27,9 +27,9 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/instantiate/src/test.ts",
-            "tsConfig": "projects/instantiate/tsconfig.spec.json",
-            "karmaConfig": "projects/instantiate/karma.conf.js"
+            "main": "projects/instantiate-typescript/src/test.ts",
+            "tsConfig": "projects/instantiate-typescript/tsconfig.spec.json",
+            "karmaConfig": "projects/instantiate-typescript/karma.conf.js"
           }
         }
       }

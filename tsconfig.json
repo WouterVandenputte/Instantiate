@@ -9,7 +9,10 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "instantiate": ["dist/instantiate/instantiate", "dist/instantiate"]
+      "instantiate-typescript": [
+        "dist/instantiate/instantiate-typescript",
+        "dist/instantiate-typescript"
+      ]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
