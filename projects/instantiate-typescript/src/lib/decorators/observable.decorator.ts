@@ -1,5 +1,9 @@
 import { map } from 'rxjs';
-import { AbstractionMapperConstructor, EmptyConstructor } from '../types';
+import {
+  AbstractionMapperConstructor,
+  EmptyConstructor,
+  ModelObject,
+} from '../types';
 import { parsePartialToRealObject } from '../parser/parser';
 import { factory } from '../helpers/creator';
 
@@ -34,7 +38,7 @@ function decorate<T extends Object>(
   descriptor.value = function () {
     return originalMethod.apply(this).pipe(
       map((partial) => {
-        if (partial != null && typeof partial === 'object') {
+        if (typeof partial === 'object') {
           if (mapperConstructor != null) {
             constructor = factory(mapperConstructor).getConstructor(
               partial as Partial<T>
