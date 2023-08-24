@@ -25,6 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
+      // Note to self > may be instantiate rename to instantiate-typescript
       dir: require('path').join(__dirname, '../../coverage/instantiate'),
       subdir: '.',
       reporters: [
