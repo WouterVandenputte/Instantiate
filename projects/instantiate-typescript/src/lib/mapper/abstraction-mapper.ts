@@ -1,5 +1,5 @@
-import { EmptyConstructor } from '../types';
+import { EmptyConstructor, Nothing } from '../types';
 
 export abstract class AbstractionMapper<T extends Object> {
-  abstract getConstructor(from: Partial<T>): EmptyConstructor<T>;
+  abstract getConstructor(from: Partial<T> | Nothing): EmptyConstructor<T>;
 }

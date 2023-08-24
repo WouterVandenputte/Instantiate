@@ -45,13 +45,18 @@ const JohnJS: Partial<User> = {
   linkedUsers: [MaryJS as User],
 };
 
-const JohnTS = parsePartialToRealObject(User, JohnJS);
-const MaryTS = parsePartialToRealObject(User, MaryJS);
+const JohnTS = parsePartialToRealObject(User, JohnJS)!;
+const MaryTS = parsePartialToRealObject(User, MaryJS)!;
 
 class UserService {
   @MapObservable(User)
   public getJohn(): Observable<User> {
     return of(JohnJS as User);
+  }
+
+  @MapObservable(User)
+  public getUsers(): Observable<User[]> {
+    return of([JohnJS, MaryJS] as User[]);
   }
 
   @MapObservable(User)
@@ -89,6 +94,11 @@ describe('Parser', () => {
     const johnResult = await firstValueFrom(new UserService().getJohn());
     const testResult = johnResult instanceof User;
     expect(testResult).toBeTrue();
+  });
+  it('Should map observables that return a list of objects as populated list', async () => {
+    const userArray = await firstValueFrom(new UserService().getUsers());
+    const isArray = Array.isArray(userArray);
+    expect(isArray && userArray.length > 0).toBeTrue();
   });
   it('Should return null without errors', async () => {
     const nullResult = await firstValueFrom(
