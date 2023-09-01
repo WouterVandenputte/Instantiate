@@ -95,10 +95,15 @@ describe('Parser', () => {
     const testResult = johnResult instanceof User;
     expect(testResult).toBeTrue();
   });
-  it('Should map observables that return a list of objects as populated list', async () => {
+  it('Should map observables that return a list of objects as non empty list', async () => {
     const userArray = await firstValueFrom(new UserService().getUsers());
     const isArray = Array.isArray(userArray);
     expect(isArray && userArray.length > 0).toBeTrue();
+  });
+  it('Should map observables that return a list of objects as populated', async () => {
+    const userArray = await firstValueFrom(new UserService().getUsers());
+    const isArray = Array.isArray(userArray);
+    expect(isArray && userArray[0]!.firstName === 'John').toBeTrue();
   });
   it('Should return null without errors', async () => {
     const nullResult = await firstValueFrom(
@@ -111,5 +116,17 @@ describe('Parser', () => {
     const testResult = maryAddressJS instanceof Address;
 
     expect(testResult).toBeFalse();
+  });
+  it('Test', () => {
+    function instantiate<T extends Object>(constructor: new () => T): T {
+      const obj = new constructor();
+      const keys = Object.keys(obj);
+      console.log('Object is:', obj);
+      console.log('Keys are:', keys);
+      return obj;
+    }
+
+    instantiate(User2);
+    expect(true).toBeTrue();
   });
 });
