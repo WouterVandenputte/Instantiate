@@ -40,26 +40,34 @@ function parseObject<T extends object>(
     try {
       if (propertyDescriptorValue) {
         // Then we map
-        const subConstructor =
-          propertyDescriptorValue.constructor ??
-          new propertyDescriptorValue.mapperConstructor!()?.getConstructor(
-            partialModel
-          );
 
-        if (subConstructor) {
+        if (propertyDescriptorValue.isDate) {
           if (partialModel[key]) {
-            const subPartialValue = partialModel[key] as
-              | Partial<T>
-              | Partial<T>[];
-
-            returnValueObject[key] = parsePartialToRealObject<any>(
-              subConstructor,
-              subPartialValue
-            );
+            returnValueObject[key] = new Date(partialModel[key] as (string | number)) as any;
           }
         } else {
-          throw Error('Internal error. Uncaptured constructor type');
+          const subConstructor =
+            propertyDescriptorValue.constructor ??
+            new propertyDescriptorValue.mapperConstructor!()?.getConstructor(
+              partialModel
+            );
+
+          if (subConstructor) {
+            if (partialModel[key]) {
+              const subPartialValue = partialModel[key] as
+                | Partial<T>
+                | Partial<T>[];
+
+              returnValueObject[key] = parsePartialToRealObject<any>(
+                subConstructor,
+                subPartialValue
+              );
+            }
+          } else {
+            throw Error('Internal error. Uncaptured constructor type');
+          }
         }
+
       } else {
         returnValueObject[key] = partialModel[key] as any;
       }
