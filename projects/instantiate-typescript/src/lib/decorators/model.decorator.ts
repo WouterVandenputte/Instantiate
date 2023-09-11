@@ -14,7 +14,7 @@ export const INSTANTIATE_CLASS_MAPPER_KEY = 'INSTANTIATE_CLASS_MAPPER_KEY';
  * @param constructor
  * @returns
  */
-export function MapModel<T extends Object>(
+export function MapModel<T extends object>(
   constructor: EmptyConstructor<T>
 ): any {
   return function (
@@ -41,7 +41,7 @@ export function MapModel<T extends Object>(
  * @param constructor
  * @returns
  */
-export function MapAbstractModel<T extends Object>(
+export function MapAbstractModel<T extends object>(
   mapperConstructor: AbstractionMapperConstructor<T>
 ): any {
   return function (

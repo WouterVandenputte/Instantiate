@@ -103,7 +103,7 @@ describe('Parser', () => {
   it('Should map observables that return a list of objects as populated', async () => {
     const userArray = await firstValueFrom(new UserService().getUsers());
     const isArray = Array.isArray(userArray);
-    expect(isArray && userArray[0]!.firstName === 'John').toBeTrue();
+    expect(isArray && userArray[0].firstName === 'John').toBeTrue();
   });
   it('Should return null without errors', async () => {
     const nullResult = await firstValueFrom(

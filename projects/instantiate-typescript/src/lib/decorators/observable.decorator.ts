@@ -2,12 +2,11 @@ import { map } from 'rxjs';
 import {
   AbstractionMapperConstructor,
   EmptyConstructor,
-  ModelObject,
 } from '../types';
 import { parsePartialToRealObject } from '../parser/parser';
-import { factory } from '../helpers/creator';
+import { factory } from '../helpers/factory';
 
-export function MapObservable<T extends Object>(
+export function MapObservable<T extends object>(
   constructor: EmptyConstructor<T>
 ) {
   return (
@@ -17,7 +16,7 @@ export function MapObservable<T extends Object>(
   ) => decorate(constructor, null, descriptor);
 }
 
-export function MapAbstractObservable<T extends Object>(
+export function MapAbstractObservable<T extends object>(
   mapperConstructor: AbstractionMapperConstructor<T>
 ) {
   return (
@@ -27,7 +26,7 @@ export function MapAbstractObservable<T extends Object>(
   ) => decorate(null, mapperConstructor, descriptor);
 }
 
-function decorate<T extends Object>(
+function decorate<T extends object>(
   constructor: EmptyConstructor<T> | null,
   mapperConstructor: AbstractionMapperConstructor<T> | null,
   descriptor: TypedPropertyDescriptor<any>

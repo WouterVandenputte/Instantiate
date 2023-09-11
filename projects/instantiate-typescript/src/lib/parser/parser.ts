@@ -6,7 +6,7 @@ import {
 } from '../types';
 import { INSTANTIATE_REFLECT_PROPERTY_KEY } from '../decorators/model.decorator';
 import 'reflect-metadata';
-import { factory } from '../helpers/creator';
+import { factory } from '../helpers/factory';
 
 /**
  * Maps a raw JS object to a TS class instance with nested properties iff they have been decorated accordignly.
@@ -15,7 +15,7 @@ import { factory } from '../helpers/creator';
  * @param partial
  * @returns
  */
-export function parsePartialToRealObject<T extends Object>(
+export function parsePartialToRealObject<T extends object>(
   constructor: EmptyConstructor<T>,
   partial: Partial<T> | Partial<T>[] | Nothing
 ): T | Nothing {
@@ -26,7 +26,7 @@ export function parsePartialToRealObject<T extends Object>(
   return parseObject(factory(constructor), partial);
 }
 
-function parseObject<T extends Object>(
+function parseObject<T extends object>(
   returnValueObject: T,
   partialModel: Partial<T>
 ): T {
@@ -52,26 +52,10 @@ function parseObject<T extends Object>(
               | Partial<T>
               | Partial<T>[];
 
-            // Needs refactoring.
             returnValueObject[key] = parsePartialToRealObject<any>(
               subConstructor,
               subPartialValue
             );
-
-            // if (Array.isArray(subPartialValue)) {
-            //   returnValueObject[key] = subPartialValue.map(
-            //     (x) => parsePartialToRealObject(subConstructor, x) as T
-            //   );
-            // } else if (typeof subPartialValue === 'object') {
-            //   returnValueObject[key] = parsePartialToRealObject(
-            //     subConstructor,
-            //     partialModel[key] as Partial<T>
-            //   );
-            // } else {
-            //   throw Error(
-            //     'A primitive type was given yet decorated with a class'
-            //   );
-            // }
           }
         } else {
           throw Error('Internal error. Uncaptured constructor type');
@@ -89,7 +73,7 @@ function parseObject<T extends Object>(
   return returnValueObject as T;
 }
 
-function parseArray<T extends Object>(
+function parseArray<T extends object>(
   constructor: EmptyConstructor<T>,
   returnObject: T[],
   partialModel: Partial<T>[]
@@ -104,7 +88,7 @@ function parseArray<T extends Object>(
   return returnObject;
 }
 
-export function parseAbstraction<T extends Object>(
+export function parseAbstraction<T extends object>(
   mapper: AbstractionMapperConstructor<T>,
   partial: Partial<T>
 ): T {
@@ -114,6 +98,6 @@ export function parseAbstraction<T extends Object>(
   ) as T;
 }
 
-function keys<T extends Object>(object: T): (keyof T & string)[] {
+function keys<T extends object>(object: T): (keyof T & string)[] {
   return Object.keys(object) as (keyof T & string)[];
 }
