@@ -31,8 +31,22 @@
             "tsConfig": "projects/instantiate-typescript/tsconfig.spec.json",
             "karmaConfig": "projects/instantiate-typescript/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/instantiate-typescript/**/*.ts",
+              "projects/instantiate-typescript/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
