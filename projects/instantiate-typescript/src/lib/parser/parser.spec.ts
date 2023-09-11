@@ -129,4 +129,9 @@ describe('Parser', () => {
   it('Should map a date string in a property to a JS Date object', () => {
     expect(MaryTS.registrationDate instanceof Date).toBeTrue();
   });
+  it('Should yield a correct date after mapping', () => {
+    const parsedDate = MaryTS.registrationDate;
+
+    expect(parsedDate?.getFullYear()).toBe(1997);
+  });
 });
