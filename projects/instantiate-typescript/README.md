@@ -10,7 +10,6 @@ Simply add this dependency to your `package.json` file
 
 **NOTE**: make sure your project is configured to target at least ES2022 in you `tsconfig.json` file. If this is not feasable for your project, it might also help to set `useDefineForClassFields` to `true`.
 
-
 ## Usage
 
 This package was designed to easily integrate the functionality using decorators.
@@ -60,7 +59,6 @@ Suppose our `User` class has a nested class properties. It suffices to simply de
     }
 
 In the example above we also illustrate that properties can be optional, this does not affect the package behaviour. When no `address` has been defined in the JS object, no `address` value will be present in the `User` instance as well.
-
 
 ### Abstractions
 
@@ -130,9 +128,7 @@ In order to map this, the implementor is required to provide a constructor of a 
       }
     }
 
-
-
- **Note that this should not be a discrete property**. One could for example also have a property within a continious range. 
+**Note that this should not be a discrete property**. One could for example also have a property within a continious range.
 
     abstract class Human {
         length: number;
@@ -147,19 +143,31 @@ In order to map this, the implementor is required to provide a constructor of a 
       }
     }
 
+### A note on JavaScript dates
+
+This package now also supports the mapping to a JS Date object, which is the same as a Typescript date object. Serializing dates to be sent over the network in essence always comes down to stringifying it to a universial notation (UTC) although a few other options also exist. Whatever the server chooses to serialize dates, as long as the JS date object can work with it, so can this packge. In order to map incoming seralized dates to class instances, a separate argumentless `MapDate` decorator can be used. If we revisit our earlier example, we can extend our model like this:
+
+    class User {
+      ...
+      @MapDate()
+      registrationDate!: Date;
+      ...
+    }
 
 ## Implications
 
-There are two dominant reasons why one would choose to have actual TS instances. After all, we could simply provide the data from our server to our webapp and provide all data in there instead of having methods or accessors in classes. 
+There are two dominant reasons why one would choose to have actual TS instances. After all, we could simply provide the data from our server to our webapp and provide all data in there instead of having methods or accessors in classes.
 
 1. Lower network latency and server load
 2. Default values and overwrites
 3. Best practices
 
 ### Latency and server load
+
 Using the approach as seen in the `User` example, we elliminate a text property for every single user, resulting in a response that is 1/3 smaller as it otherwise would be. Extrapolating this to a datagrid with hundreds of users it can quickly become more desirable to migrate this accessor to the client.
 
 ### Default values and overwrites
+
 When we take for example a .NET webapp, we could define a class as following
 
     class MyClass {
@@ -169,7 +177,7 @@ When we take for example a .NET webapp, we could define a class as following
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool IsActive { get; set; } = true;
     }
-    
+
 I.e., we assume that the vast majority of instances have this `IsActive`-flag set to `true`. It thus makes no sense to always serialize (which always comes with a cost) this except for the rare cases in which the flag is false. This package allows us to write our TS class as following
 
     export class MyClass {
