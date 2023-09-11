@@ -9,4 +9,5 @@ export declare type Nothing = null | undefined;
 export declare type MapModelDescriptorType<T extends object> = {
   constructor: EmptyConstructor<T> | Nothing;
   mapperConstructor: AbstractionMapperConstructor<T> | Nothing;
+  isDate?: boolean;
 };

@@ -3,6 +3,7 @@ import { parsePartialToRealObject } from './parser';
 import { MapModel } from '../decorators/model.decorator';
 import { MapObservable } from '../decorators/observable.decorator';
 import { Observable, firstValueFrom, of } from 'rxjs';
+import { MapDate } from '../decorators/date.decorator';
 
 class Address {
   zipcode!: string;
@@ -15,6 +16,9 @@ class User {
   @MapModel(Address)
   address?: Address;
 
+  @MapDate()
+  registrationDate?: Date;
+
   rawJsAddress?: Address;
 
   @MapModel(User)
@@ -25,6 +29,9 @@ class User {
   }
 }
 
+const olderDate = new Date();
+olderDate.setFullYear(1997, 2, 18);
+
 const MaryJS: Partial<User> = {
   firstName: 'Mary',
   lastName: 'Lucky',
@@ -34,6 +41,8 @@ const MaryJS: Partial<User> = {
   rawJsAddress: {
     zipcode: 'ABCD',
   },
+
+  registrationDate: olderDate.toUTCString() as unknown as Date
 };
 
 const JohnJS: Partial<User> = {
@@ -117,16 +126,7 @@ describe('Parser', () => {
 
     expect(testResult).toBeFalse();
   });
-  it('Test', () => {
-    function instantiate<T extends Object>(constructor: new () => T): T {
-      const obj = new constructor();
-      const keys = Object.keys(obj);
-      console.log('Object is:', obj);
-      console.log('Keys are:', keys);
-      return obj;
-    }
-
-    instantiate(User2);
-    expect(true).toBeTrue();
+  it('Should map a date string in a property to a JS Date object', () => {
+    expect(MaryTS.registrationDate instanceof Date).toBeTrue();
   });
 });
